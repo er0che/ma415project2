@@ -32,10 +32,7 @@ for (i in 1:N){
   if(nchar(file[1,1]) == 2 & file[1,1] < 50 ) {
     file[1] <- lapply(file[1], function(x){str_c(20, x, sep = "")})
   }
-  
-  if(is.element("mm", colnames(file))) {
-    file <- file %>% filter(mm == "00")
-  }
+
   
   file <- file %>% select(YYYY, MM, DD, hh, ATMP, WTMP)
   
@@ -59,3 +56,5 @@ CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
 CM$WTMP <- apply(CM[,3], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 CM$WTMP <- apply(CM[,3], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
+
+ggplot(data = CM, aes(x=date, y=ATMP)) + geom_smooth(data = CM, aes(x=date, y=ATMP))
