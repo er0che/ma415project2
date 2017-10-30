@@ -54,7 +54,11 @@ CM<-select(CM, date, ATMP, WTMP)
 
 CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
+CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == "99.0", NA, x)})
 CM$WTMP <- apply(CM[,3], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 CM$WTMP <- apply(CM[,3], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
 
-ggplot(data = CM, aes(x=date, y=ATMP)) + geom_smooth(data = CM, aes(x=date, y=ATMP))
+ggplot(data = CM, aes(x=date, y=ATMP)) + geom_point(data = CM, aes(x=date, y=ATMP)) + geom_smooth()
+
+plot(CM)
+
