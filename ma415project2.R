@@ -1,3 +1,14 @@
+# WHAT TO DO
+# col 1: team number, 1...
+# col 2: type-reading, buoy.....
+# col 3: time difference from noon, should be posix variables, A for ones w/o readings
+# col 4: time
+# col 5: location (lat)
+# col 6: location (long)
+# col 7: sea tep
+# col 8: air temp
+
+
 # cape may dataset - Elise Roche
 
 library(tidyverse)
@@ -46,12 +57,13 @@ for (i in 1:N){
   
 }
 
-CM<-filter(CM, hh=="12", DD == '01' | DD =="15")
+CM<-filter(CM, hh=="12")
 
 CM$date <- ymd(paste(CM$YYYY, CM$MM, CM$DD))
 
 CM<-select(CM, date, ATMP, WTMP)
 
+CM$region <- apply(CM[,4], MARGIN=2)
 CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
 CM$ATMP <- apply(CM[,2], MARGIN = 2, function(x){ifelse(x == "99.0", NA, x)})
@@ -101,7 +113,7 @@ for (i in 1:N){
   
 }
 
-MR<-filter(MR, hh=="12", DD == '01' | DD =="15")
+MR<-filter(MR, hh=="12")
 
 MR$date <- ymd(paste(MR$YYYY, MR$MM, MR$DD))
 
@@ -160,7 +172,7 @@ for (i in 1:N){
   
 }
 
-GB<-filter(GB, hh=="12", DD == '01' | DD =="15")
+GB<-filter(GB, hh=="12")
 
 GB$date <- ymd(paste(GB$YYYY, GB$MM, GB$DD))
 
@@ -189,6 +201,8 @@ filenames <- str_c("cl", years, sep = "")
 
 N <- length(urls)
 
+
+
 for (i in 1:N){
   assign(filenames[i], read_table(urls[i], col_names = TRUE))
   
@@ -205,6 +219,7 @@ for (i in 1:N){
   }
   
   
+  
   file <- file %>% select(YYYY, MM, DD, hh, ATMP, WTMP)
   
   if(i == 1){
@@ -217,7 +232,7 @@ for (i in 1:N){
   
 }
 
-CL<-filter(CL, hh=="12", DD == '01' | DD =="15")
+CL<-filter(CL, hh=="12")
 
 CL$date <- ymd(paste(CL$YYYY, CL$MM, CL$DD))
 
