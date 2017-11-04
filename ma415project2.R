@@ -16,6 +16,7 @@ library(stringr)
 library(data.table)
 library(lubridate)
 library(dplyr)
+library(xlsx)
 
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=44009h"
 str2 <- ".txt.gz&dir=data/historical/stdmet/"
@@ -43,12 +44,17 @@ for (i in 1:N){
     file[1] <- lapply(file[1], function(x){str_c(20, x, sep = "")})
   }
 
+  
   if(is.element("mm", colnames(file))) {
-    file <- file %>% filter((hh = 12 & mm = 0) | (hh = 11 & mm = 50))
+    file <- file %>% filter(mm == 00 | mm == 50)
   }
   
+  else {
+    file$mm <- 00
+  }
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
+  
   
   if(i == 1){
     CM <- file
@@ -58,11 +64,12 @@ for (i in 1:N){
     CM <- rbind.data.frame(CM, file)
   }
   
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, minute = file$mm, tz = "EST")
+  
+  
 }
 
-CM<-filter(CM, hh=="12")
-
-CM$date <- ymd(paste(CM$YYYY, CM$MM, CM$DD, CM$hh, CM$mm))
+CM<-filter(CM, hh==12 & mm == 00 | hh == 11 & mm == 50)
 
 CM<-select(CM, date, ATMP, WTMP)
 
@@ -112,14 +119,17 @@ for (i in 1:N){
     file[1] <- lapply(file[1], function(x){str_c(20, x, sep = "")})
   }
   
+  
   if(is.element("mm", colnames(file))) {
-    file <- file %>% filter((hh = 12 & mm = 0) | (hh = 11 & mm = 50))
+    file <- file %>% filter(mm == 00 | mm == 50)
   }
   
-  ### add in statement adding "0" or NA column to datasets w.o. minutes
-  
+  else {
+    file$mm <- 00
+  }
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
+  
   
   if(i == 1){
     MR <- file
@@ -129,11 +139,11 @@ for (i in 1:N){
     MR <- rbind.data.frame(MR, file)
   }
   
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, minute = file$mm, tz = "EST")
+  
 }
 
-MR<-filter(MR, hh=="12")
-
-MR$date <- ymd(paste(MR$YYYY, MR$MM, MR$DD, MR$hh, MR$mm))
+MR<-filter(MR, hh==12 & mm == 00 | hh == 11 & mm == 50)
 
 MR<-select(MR, date, ATMP, WTMP)
 
@@ -154,8 +164,6 @@ MR$Lat <- 25.0
 MR$Long <- 80.4
 
 MR <- MR[c("Group", "Type", "Time", "Lat", "Long", "Sea Temp", "Air Temp")]
-
-plot(MR)
 
 # George's Bank - Melody Shaff
 
@@ -186,11 +194,17 @@ for (i in 1:N){
     file[1] <- lapply(file[1], function(x){str_c(20, x, sep = "")})
   }
   
+  
   if(is.element("mm", colnames(file))) {
-    file <- file %>% filter((hh = 12 & mm = 0) | (hh = 11 & mm = 50))
+    file <- file %>% filter(mm == 00 | mm == 50)
+  }
+  
+  else {
+    file$mm <- 00
   }
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
+  
   
   if(i == 1){
     GB <- file
@@ -200,11 +214,11 @@ for (i in 1:N){
     GB <- rbind.data.frame(GB, file)
   }
   
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, minute = file$mm, tz = "EST")
+  
 }
 
-GB<-filter(GB, hh=="12")
-
-GB$date <- ymd(paste(GB$YYYY, GB$MM, GB$DD, GB$hh, GB$mm))
+GB<-filter(GB, hh==12 & mm == 00 | hh == 11 & mm == 50)
 
 GB<-select(GB, date, ATMP, WTMP)
 
@@ -225,8 +239,6 @@ GB$Lat <- 41.1
 GB$Long <- 66.6
 
 GB <- GB[c("Group", "Type", "Time", "Lat", "Long", "Sea Temp", "Air Temp")]
-
-plot(GB)
 
 # cape lookout - Carly Rose Willing
 
@@ -256,11 +268,17 @@ for (i in 1:N){
     file[1] <- lapply(file[1], function(x){str_c(20, x, sep = "")})
   }
   
+  
   if(is.element("mm", colnames(file))) {
-    file <- file %>% filter(hh = 12 & mm = 0) | (hh = 11 & mm = 50))
+    file <- file %>% filter(mm == 00 | mm == 50)
+  }
+  
+  else {
+    file$mm <- 00
   }
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
+  
   
   if(i == 1){
     MG <- file
@@ -270,20 +288,19 @@ for (i in 1:N){
     MG <- rbind.data.frame(MG, file)
   }
   
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, minute = file$mm, tz = "EST")
+  
+  
 }
 
-MG<-filter(MG, hh=="12")
-
-MG$date <- ymd(paste(MG$YYYY, MG$MM, MG$DD, MG$hh, MG$mm))
+MG<-filter(MG, hh==12 & mm == 00 | hh == 11 & mm == 50)
 
 MG<-select(MG, date, ATMP, WTMP)
 
 MG$ATMP <- apply(MG[,2], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
-MG$ATMP <- apply(MG[,2], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
-MG$ATMP <- apply(MG[,2], MARGIN = 2, function(x){ifelse(x == "99.0", NA, x)})
+MG$ATMP <- apply(MG[,2], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 MG$WTMP <- apply(MG[,3], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
-MG$WTMP <- apply(MG[,3], MARGIN = 2, function(x){ifelse(x == "999.0", NA, x)})
-MG$WTMP <- apply(MG[,3], MARGIN = 2, function(x){ifelse(x == "99.0", NA, x)})
+MG$WTMP <- apply(MG[,3], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 
 colnames(MG)[2] <- "Air Temp"
 colnames(MG)[3] <- "Sea Temp"
@@ -296,4 +313,3 @@ MG$Long <- 89.7
 
 MG <- MG[c("Group", "Type", "Time", "Lat", "Long", "Sea Temp", "Air Temp")]
 
-plot(MG)
