@@ -325,7 +325,7 @@ GB <- GB[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp",
 
 # Mid Gulf
 
-Below is our data cleaning procedure as applied to the Cape Lookout buoy data. Again, comments describing this code can be found in the Cape May portion at the beginning of this report.
+Below is our data cleaning procedure as applied to the Mid Gulf buoy data. Again, comments describing this code can be found in the Cape May portion at the beginning of this report.
 
 ```{r}
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=42001h"
