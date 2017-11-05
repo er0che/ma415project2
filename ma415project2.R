@@ -302,7 +302,7 @@ GB$Long <- 66.6
 
 GB <- GB[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
 
-# Cape Lookout
+# Mid-Gulf
 
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=42001h"
 str2 <- ".txt.gz&dir=data/historical/stdmet/"
