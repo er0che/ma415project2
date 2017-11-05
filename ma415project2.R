@@ -118,22 +118,22 @@ CM$ATMP <- apply(CM[,3], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 CM$WTMP <- apply(CM[,4], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 CM$WTMP <- apply(CM[,4], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 
-colnames(CM)[3] <- "Air Temp"
-colnames(CM)[4] <- "Sea Temp"
-colnames(CM)[1] <- "Date"
-colnames(CM)[2] <- "Time from Noon"
+colnames(CM)[3] <- "air_temp"
+colnames(CM)[4] <- "sea_temp"
+colnames(CM)[1] <- "date_time"
+colnames(CM)[2] <- "time_diff"
 
 # There are a few more columns to put in
 
-CM$Group <- 1
-CM$Type <- "Buoy"
+CM$team_num <- 1
+CM$reading_type <- "buoy"
 CM$Lat <- 38.5
-CM$Long <- 74.7
+CM$Lon <- 74.7
 
 # And then reordering the columns
 
-CM <- CM[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
-
+CM <- CM[c("team_num", "reading_type", "date_time", "time_diff", "Lat", "Lon", 
+           "sea_temp", "air_temp")]
 
 # Then we do it all again for the next location
 # Molasses Reef
@@ -207,17 +207,18 @@ MR$ATMP <- apply(MR[,3], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 MR$WTMP <- apply(MR[,4], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 MR$WTMP <- apply(MR[,4], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 
-colnames(MR)[3] <- "Air Temp"
-colnames(MR)[4] <- "Sea Temp"
-colnames(MR)[1] <- "Date"
-colnames(MR)[2] <- "Time from Noon"
+colnames(MR)[3] <- "air_temp"
+colnames(MR)[4] <- "sea_temp"
+colnames(MR)[1] <- "date_time"
+colnames(MR)[2] <- "time_diff"
 
-MR$Group <- 1
-MR$Type <- "Buoy"
+MR$team_num <- 1
+MR$reading_type <- "buoy"
 MR$Lat <- 25.0
-MR$Long <- 80.4
+MR$Lon <- 80.4
 
-MR <- MR[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
+MR <- MR[c("team_num", "reading_type", "date_time", "time_diff", "Lat", "Lon", 
+           "sea_temp", "air_temp")]
 
 # Georges Bank
 
@@ -290,17 +291,18 @@ GB$ATMP <- apply(GB[,3], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 GB$WTMP <- apply(GB[,4], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 GB$WTMP <- apply(GB[,4], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 
-colnames(GB)[3] <- "Air Temp"
-colnames(GB)[4] <- "Sea Temp"
-colnames(GB)[1] <- "Date"
-colnames(GB)[2] <- "Time from Noon"
+colnames(GB)[3] <- "air_temp"
+colnames(GB)[4] <- "sea_temp"
+colnames(GB)[1] <- "date_time"
+colnames(GB)[2] <- "time_diff"
 
-GB$Group <- 1
-GB$Type <- "Buoy"
+GB$team_num <- 1
+GB$reading_type <- "buoy"
 GB$Lat <- 41.1
-GB$Long <- 66.6
+GB$Lon <- 66.6
 
-GB <- GB[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
+GB <- GB[c("team_num", "reading_type", "date_time", "time_diff", "Lat", "Lon", 
+            "sea_temp", "air_temp")]
 
 # Mid-Gulf
 
@@ -373,21 +375,22 @@ MG$ATMP <- apply(MG[,3], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 MG$WTMP <- apply(MG[,4], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
 MG$WTMP <- apply(MG[,4], MARGIN = 2, function(x){ifelse(x == 99.0, NA, x)})
 
-colnames(MG)[3] <- "Air Temp"
-colnames(MG)[4] <- "Sea Temp"
-colnames(MG)[1] <- "Date"
-colnames(MG)[2] <- "Time from Noon"
+colnames(MG)[3] <- "air_temp"
+colnames(MG)[4] <- "sea_temp"
+colnames(MG)[1] <- "date_time"
+colnames(MG)[2] <- "time_diff"
 
-MG$Group <- 1
-MG$Type <- "Buoy"
+MG$team_num <- 1
+MG$reading_type <- "buoy"
 MG$Lat <- 25.9
-MG$Long <- 89.7
+MG$Lon <- 89.7
 
-MG <- MG[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
+MG <- MG[c("team_num", "reading_type", "date_time", "time_diff", "Lat", "Lon", 
+           "sea_temp", "air_temp")]
 
 # Finally, we need to put these dataframes into an xlsx file
 
-write.xlsx(CM, "group1data.xlsx", sheetName = "Cape May - Buoy # 44009")
-write.xlsx(MR, "group1data.xlsx", sheetName = "Molasses Reef - Buoy # MLRF1", append = TRUE)
-write.xlsx(GB, "group1data.xlsx", sheetName = "Georges Bank - Buoy # 44011", append = TRUE)
-write.xlsx(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
+write.xlsx2(CM, "group1data.xlsx", sheetName = "Cape May - Buoy # 44009")
+write.xlsx2(MR, "group1data.xlsx", sheetName = "Molasses Reef - Buoy # MLRF1", append = TRUE)
+write.xlsx2(GB, "group1data.xlsx", sheetName = "Georges Bank - Buoy # 44011", append = TRUE)
+write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
