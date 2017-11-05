@@ -323,7 +323,7 @@ GB$Long <- 66.6
 GB <- GB[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
 ```
 
-# Cape Lookout
+# Mid Gulf
 
 Below is our data cleaning procedure as applied to the Cape Lookout buoy data. Again, comments describing this code can be found in the Cape May portion at the beginning of this report.
 
