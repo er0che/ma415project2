@@ -5,14 +5,17 @@
 # MS - report on data cleaning
 # experiment w/ visualization
 
-# cape may dataset - Elise Roche
+# Setting up some libraries we'll need
 
 library(tidyverse)
 library(stringr)
-library(data.table)
 library(lubridate)
-library(dplyr)
 library(xlsx)
+
+# For Cape May
+# These sections of code will repeat for each location, so I'm only commenting once
+
+# First we set up the urls of the buoy data tables from the NDBC website
 
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=44009h"
 str2 <- ".txt.gz&dir=data/historical/stdmet/"
@@ -21,22 +24,37 @@ years <- c(1984:2016)
 
 urls <- str_c(str1, years, str2, sep = "")
 
+# Now that we havve urls, let's say what the filenames for each year will be
+
 filenames <- str_c("cm", years, sep = "")
+
+# And how many we have
 
 N <- length(urls)
 
 for (i in 1:N){
+  
+  # For each year of our data, get the table from that url and call it "file"
+  
   assign(filenames[i], read_table(urls[i], col_names = TRUE))
   
   file <- get(filenames[i])
   
+  # Before 1998 the year column is only 2 digits, YY, so let's get those to all match
+  
   colnames(file)[1] <-"YYYY"
+  
+  # If the first year entry is 2 digits, put 19 in front of it
   
   if(nchar(file[1,1]) == 2 & file[1,1] > 50 ) {
     file[1] <- lapply(file[1], function(x){str_c(19, x, sep = "")})
   }
   
+  # Since we turned it into a string by doing that, let's get it back to a number
+  
   file$YYYY <- as.numeric(file$YYYY)
+  
+  # And then make sure everything else is numbers
   
   file$MM <- as.numeric(file$MM)
   
@@ -48,6 +66,11 @@ for (i in 1:N){
   
   file$WTMP <- as.numeric(file$WTMP)
   
+  # Early years didn't have a minutes column
+  # For those with minutes, we want to add it in with an entry at zero
+  # Otherwise, we only want 0 minutes if possible
+  # But some years have entries at 50 minutes instead
+  
   if(is.element("mm", colnames(file))) {
     file$mm <- as.numeric(file$mm)
     file <- file %>% filter(mm == 00 | mm == 50)
@@ -57,9 +80,14 @@ for (i in 1:N){
     file$mm <- 00
   }
   
+  # Pulling out just the columns we care about, then making the date column
+  
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
   
-  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, min = file$mm)
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, 
+                             hour = file$hh, min = file$mm)
+  
+  # Putting our temporary 'file' into the main dataframe for this location
   
   if(i == 1){
     CM <- file
@@ -71,10 +99,18 @@ for (i in 1:N){
   
 }
 
+# Now we have a few other actions to perform
+# We filter out so we have just one entry for each day, the closest to noon
+
 CM <- filter(CM, hh == 12 & mm == 00 | hh == 11 & mm == 50)
 
-CM$timediff <- make_datetime(hour = CM$hh, min = CM$mm) - make_datetime(hour = 12, min = 00) 
-  
+# Then make the time difference column
+
+CM$timediff <- make_datetime(hour = CM$hh, min = CM$mm) - make_datetime(hour = 12, 
+                                                                        min = 00) 
+# Then we'll filter down to the columns we really want, recode the NAs, 
+# and rename the columns  
+
 CM <- select(CM, date, timediff, ATMP, WTMP)
 
 CM$ATMP <- apply(CM[,3], MARGIN = 2, function(x){ifelse(x == 999.0, NA, x)})
@@ -87,15 +123,20 @@ colnames(CM)[4] <- "Sea Temp"
 colnames(CM)[1] <- "Date"
 colnames(CM)[2] <- "Time from Noon"
 
+# There are a few more columns to put in
+
 CM$Group <- 1
 CM$Type <- "Buoy"
 CM$Lat <- 38.5
 CM$Long <- 74.7
 
+# And then reordering the columns
+
 CM <- CM[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
 
 
-# mollasses reef data - Brian Clare
+# Then we do it all again for the next location
+# Molasses Reef
 
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=mlrf1h"
 str2 <- ".txt.gz&dir=data/historical/stdmet/"
@@ -142,7 +183,8 @@ for (i in 1:N){
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
   
-  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, min = file$mm)
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, 
+                             hour = file$hh, min = file$mm)
   
   if(i == 1){
     MR <- file
@@ -177,7 +219,7 @@ MR$Long <- 80.4
 
 MR <- MR[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
 
-# George's Bank - Melody Shaff
+# Georges Bank
 
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=44011h"
 str2 <- ".txt.gz&dir=data/historical/stdmet/"
@@ -224,7 +266,8 @@ for (i in 1:N){
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
   
-  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, min = file$mm)
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, 
+                             hour = file$hh, min = file$mm)
   
   if(i == 1){
     GB <- file
@@ -259,7 +302,7 @@ GB$Long <- 66.6
 
 GB <- GB[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
 
-# cape lookout - Carly Rose Willing
+# Cape Lookout
 
 str1 <- "http://www.ndbc.noaa.gov/view_text_file.php?filename=42001h"
 str2 <- ".txt.gz&dir=data/historical/stdmet/"
@@ -306,7 +349,8 @@ for (i in 1:N){
   
   file <- file %>% select(YYYY, MM, DD, hh, mm, ATMP, WTMP)
   
-  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, hour = file$hh, min = file$mm)
+  file$date <- make_datetime(year = file$YYYY, month = file$MM, day = file$DD, 
+                             hour = file$hh, min = file$mm)
   
   if(i == 1){
     MG <- file
@@ -341,7 +385,9 @@ MG$Long <- 89.7
 
 MG <- MG[c("Group", "Type", "Date", "Time from Noon", "Lat", "Long", "Sea Temp", "Air Temp")]
 
+# Finally, we need to put these dataframes into an xlsx file
+
 write.xlsx(CM, "group1data.xlsx", sheetName = "Cape May - Buoy # 44009")
-write.xlsx(MR, "group1data.xlsx", sheetName = "Mollases Reef - Buoy # MLRF1", append = TRUE)
+write.xlsx(MR, "group1data.xlsx", sheetName = "Molasses Reef - Buoy # MLRF1", append = TRUE)
 write.xlsx(GB, "group1data.xlsx", sheetName = "Georges Bank - Buoy # 44011", append = TRUE)
 write.xlsx(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
