@@ -1,13 +1,9 @@
 # WHAT TO DO
-# col 1: team number, 1...
-# col 2: type-reading, buoy.....
-# col 3: time difference from noon, should be posix variables, A for ones w/o readings
-# col 4: time
-# col 5: location (lat)
-# col 6: location (long)
-# col 7: sea tep
-# col 8: air temp
-
+# proof read code according style guide rules
+# add code comments
+# CR - basic states & write up of that 
+# MS - report on data cleaning
+# experiment w/ visualization
 
 # cape may dataset - Elise Roche
 
