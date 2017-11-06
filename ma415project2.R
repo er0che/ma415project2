@@ -575,6 +575,3 @@ GB.AirSea <- ggplot(data = GB) + geom_point(mapping = aes(x = sea_temp, y = air_
 # gridExtra Version of Plots
 
 grid.arrange(CM.AirSea, MR.AirSea, MG.AirSea, GB.AirSea, ncol=2)
-
-=======
->>>>>>> 914ec07ebc344a0c006a9aefce636654e3d32a16
