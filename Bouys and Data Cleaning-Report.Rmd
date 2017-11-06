@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Map of All Buoy Locations
-![]https://i.imgur.com/KqR1Kqc.png
+![](https://i.imgur.com/KqR1Kqc.png)
 # Setting Up Necessary Libraries
 
 ```{r}
