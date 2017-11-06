@@ -398,6 +398,7 @@ write.xlsx2(CM, "group1data.xlsx", sheetName = "Cape May - Buoy # 44009")
 write.xlsx2(MR, "group1data.xlsx", sheetName = "Molasses Reef - Buoy # MLRF1", append = TRUE)
 write.xlsx2(GB, "group1data.xlsx", sheetName = "Georges Bank - Buoy # 44011", append = TRUE)
 write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
+<<<<<<< HEAD
 write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
 
 # CM Air and Sea
@@ -575,3 +576,5 @@ GB.AirSea <- ggplot(data = GB) + geom_point(mapping = aes(x = sea_temp, y = air_
 
 grid.arrange(CM.AirSea, MR.AirSea, MG.AirSea, GB.AirSea, ncol=2)
 
+=======
+>>>>>>> 914ec07ebc344a0c006a9aefce636654e3d32a16
