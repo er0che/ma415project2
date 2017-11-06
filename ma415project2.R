@@ -397,3 +397,25 @@ write.xlsx2(CM, "group1data.xlsx", sheetName = "Cape May - Buoy # 44009")
 write.xlsx2(MR, "group1data.xlsx", sheetName = "Molasses Reef - Buoy # MLRF1", append = TRUE)
 write.xlsx2(GB, "group1data.xlsx", sheetName = "Georges Bank - Buoy # 44011", append = TRUE)
 write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
+write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
+
+# CM Air and Sea
+
+ggplot(data = CM) + geom_point(mapping = aes(x = sea_temp, y = air_temp), color="lightblue") + 
+  labs(title="Cape May Air Temperature vs. Sea Temperature", x="Sea Temperature (°C)", y="Air Temperature (°C)")
+
+# MR Air and Sea
+
+ggplot(data = MR) + geom_point(mapping = aes(x = sea_temp, y = air_temp), color="darkolivegreen1") + 
+  labs(title="Molasses Reef Air Temperature vs. Sea Temperature", x="Sea Temperature (°C)", y="Air Temperature (°C)")
+
+# MG Air and Sea
+
+ggplot(data = MG) + geom_point(mapping = aes(x = sea_temp, y = air_temp), color="lightpink1") + 
+  labs(title="Mid Gulf Air Temperature vs. Sea Temperature", x="Sea Temperature (°C)", y="Air Temperature (°C)")
+
+# GB Air and Sea
+
+ggplot(data = GB) + geom_point(mapping = aes(x = sea_temp, y = air_temp), color="khaki") + 
+  labs(title="Georges Bank Air Temperature vs. Sea Temperature", x="Sea Temperature (°C)", y="Air Temperature (°C)")
+

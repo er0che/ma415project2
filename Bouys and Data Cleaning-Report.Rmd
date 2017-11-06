@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Map of All Buoy Locations
+![](https://i.imgur.com/KqR1Kqc.png)
 # Setting Up Necessary Libraries
 
 ```{r}
@@ -436,4 +438,76 @@ write.xlsx(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append 
   Ninth, we changed our column names to make them more readable and added in necessary new columns. We changed ATMP to Air Temp, WTMP to Sea Temp, date to Date, and timediff to Time from Noon. Next, we added in a column for our group number (1), the type of data we used (buoy data), the latitude, and the longitude of the location. 
   Finally, we reordered the columns. As the group compiling all of the groups' data sets needs uniformity we made sure to re-order our columns last to ensure that were easy to use for the next group. Thus, the columns are now: 1) Group, 2) Type, 3) Date, 4) Time from Noon, 5) Lat, 6) Long, 7) Sea Temp, 8) Air Temp.
   We used this same procedure for each of our locations' data. Our very last step was to put the cleaned data frames into an xlsx file. We did this by writing the file with the first location's data and adding the other three locations one by one as new sheets. 
-  
+
+# Descriptive Statistics for Each Buoy
+```{r, warning=FALSE, results = HIDE}
+#descriptive statistics for Cape May
+summary(CM$air_temp)
+sd(CM$air_temp, na.rm=TRUE)
+summary(CM$sea_temp)
+sd(CM$sea_temp, na.rm=TRUE)
+cor(CM$air_temp, CM$sea_temp, use = "complete.obs") 
+
+#descriptive statistics for Molasses Reef
+summary(MR$air_temp)
+sd(MR$air_temp, na.rm=TRUE)
+summary(MR$sea_temp)
+sd(MR$sea_temp, na.rm=TRUE)
+cor(MR$air_temp, MR$sea_temp, use = "complete.obs")
+
+
+#descriptive statistics for Georges Bank
+summary(GB$air_temp)
+sd(GB$air_temp, na.rm=TRUE)
+summary(GB$sea_temp)
+sd(GB$sea_temp, na.rm=TRUE)
+cor(GB$air_temp, GB$sea_temp, use = "complete.obs") 
+
+
+#descriptive statistics for Mid Gulf
+summary(MG$air_temp)
+sd(MG$air_temp, na.rm=TRUE)
+summary(MG$sea_temp)
+sd(MG$sea_temp, na.rm=TRUE)
+cor(MG$air_temp, MG$sea_temp, use = "complete.obs") 
+```
+## Descriptive Statistics For Cape May
+
+Variable         | Minimum | Median | Mean | Standard Deviation | Maximum | Range | Correlation |
+:----------------|:-------:|:------:|:----:|:------------------:|:-------:|:-----:|:-----------:|
+Air Temperature  | -14.20  |  13.40 | 13.20|    7.864           |  27.10  | 41.30 | 0.9228646
+Sea Temperature  | 0.50    | 14.20  | 14.31|    6.874           |  26.90  | 26.40 |
+
+
+Table: Cape May Descriptive Statistics for All Years
+
+
+## Descriptive Statistics For Molasses Reef
+
+Variable         | Minimum | Median | Mean | Standard Deviation | Maximum | Range | Correlation |
+:----------------|:-------:|:------:|:----:|:------------------:|:-------:|:-----:|:-----------:|
+Air Temperature  | 2.60    |  25.30 | 24.68|    3.972           |  30.70  | 28.10 | 0.81659
+Sea Temperature  | 18.00   | 26.40  | 26.49|    2.506           |  31.20  | 13.20 |
+
+
+Table: Molasses Reef Descriptive Statistics for All Years
+
+##Descriptive Statistics for George's Bank
+
+Variable         | Minimum | Median | Mean | Standard Deviation | Maximum | Range | Correlation |
+:----------------|:-------:|:------:|:----:|:------------------:|:-------:|:-----:|:-----------:|
+Air Temperature  | -11.20  |  10.70 | 10.69|    6.148           |  25.80  | 37.00 | 0.87634
+Sea Temperature  | 0.40    | 10.10  | 10.72|    5.216           |  27.40  | 27.00 |
+
+
+Table: George's Bank Descriptive Statistics for All Years
+
+##Descriptive Statistics for Mid Gulf
+
+Variable         | Minimum | Median | Mean | Standard Deviation | Maximum | Range | Correlation |
+:----------------|:-------:|:------:|:----:|:------------------:|:-------:|:-----:|:-----------:|
+Air Temperature  | 7.50    |  25.10 | 24.71|    3.398           |  32.20  | 24.70 |0.84549
+Sea Temperature  | 19.8    | 26.30  | 26.20|    2.696           |  31.00  | 11.20 |
+
+
+Table: Mid Gulf Descriptive Statistics for All Years
