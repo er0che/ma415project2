@@ -7,6 +7,9 @@
 
 # Setting up some libraries we'll need
 
+options(java.parameters = "- Xmx1024m")
+
+
 library(tidyverse)
 library(stringr)
 library(lubridate)
