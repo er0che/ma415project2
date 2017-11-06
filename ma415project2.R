@@ -1,10 +1,3 @@
-# WHAT TO DO
-# proof read code according style guide rules
-# add code comments
-# CR - basic states & write up of that 
-# MS - report on data cleaning
-# experiment w/ visualization
-
 # Setting up some libraries we'll need
 
 options(java.parameters = "- Xmx1024m")
@@ -306,7 +299,7 @@ GB$Lat <- 41.1
 GB$Lon <- 66.6
 
 GB <- GB[c("team_num", "reading_type", "date_time", "time_diff", "Lat", "Lon", 
-            "sea_temp", "air_temp")]
+           "sea_temp", "air_temp")]
 
 # Mid-Gulf
 
@@ -399,6 +392,7 @@ write.xlsx2(MR, "group1data.xlsx", sheetName = "Molasses Reef - Buoy # MLRF1", a
 write.xlsx2(GB, "group1data.xlsx", sheetName = "Georges Bank - Buoy # 44011", append = TRUE)
 write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
 <<<<<<< HEAD
+<<<<<<< HEAD
 write.xlsx2(MG, "group1data.xlsx", sheetName = "Mid Gulf - Buoy # 42001", append = TRUE)
 
 # CM Air and Sea
@@ -422,6 +416,10 @@ ggplot(data = GB) + geom_point(mapping = aes(x = sea_temp, y = air_temp), color=
   labs(title="Georges Bank Air Temperature vs. Sea Temperature", x="Sea Temperature (°C)", y="Air Temperature (°C)")
 
 # Seasons
+
+
+# Seasonal Data Visualization
+
 
 CM.seasons <- mutate(CM, month = month(CM$date_time),
                      day = day(CM$date_time), year = year(CM$date_time))
@@ -449,6 +447,7 @@ GB.fall <- filter(GB.seasons, month == 10 | month == 11 | month == 12)
 
 MG.seasons <- mutate(MG, month = month(MG$date_time),
                      day = day(MG$date_time), year = year(MG$date_time))
+
 MG.winter <- filter(MG.seasons, month == 1 | month == 2 | month == 3)
 MG.spring <- filter(MG.seasons, month == 4 | month == 5 | month == 6)
 MG.summer <- filter(MG.seasons, month == 7 | month == 8 | month == 9)
@@ -456,6 +455,7 @@ MG.fall <- filter(MG.seasons, month == 10 | month == 11 | month == 12)
 
 winter.CM <- ggplot() + geom_point(data = CM.winter, aes(y = air_temp, x = date_time), color = "darkslategray4") +
   geom_smooth(data = CM.winter, aes(y = air_temp, x = date_time), color = "darkslategray", method = "lm", se = FALSE) +
+
   labs(x = "Year", y = "Air Temperature")
 spring.CM <- ggplot() + geom_point(data = CM.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
   geom_smooth(data = CM.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
@@ -466,6 +466,18 @@ summer.CM <- ggplot() + geom_point(data = CM.summer, aes(y = air_temp, x = date_
 fall.CM <- ggplot() + geom_point(data = CM.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
   geom_smooth(data = CM.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
   labs(x = "Year", y = "Air Temperature")
+
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Winter Months in Cape May")
+spring.CM <- ggplot() + geom_point(data = CM.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
+  geom_smooth(data = CM.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Spring Months in Cape May")
+summer.CM <- ggplot() + geom_point(data = CM.summer, aes(y = air_temp, x = date_time), color = "goldenrod1") + 
+  geom_smooth(data = CM.summer, aes(y = air_temp, x = date_time), color = "goldenrod4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Summer Months in Cape May")
+fall.CM <- ggplot() + geom_point(data = CM.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
+  geom_smooth(data = CM.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Fall Months in Cape May")
+
 grid.arrange(winter.CM, spring.CM, summer.CM, fall.CM, ncol=2)
 
 CM.winter$date_time <- as.numeric(CM.winter$date_time)
@@ -480,6 +492,7 @@ cor(CM.fall$air_temp, CM.fall$date_time, use = "complete.obs")
 
 winter.MR <- ggplot() + geom_point(data = MR.winter, aes(y = air_temp, x = date_time), color = "darkslategray4") +
   geom_smooth(data = MR.winter, aes(y = air_temp, x = date_time), color = "darkslategray", method = "lm", se = FALSE) +
+
   labs(x = "Year", y = "Air Temperature")
 spring.MR <- ggplot() + geom_point(data = MR.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
   geom_smooth(data = MR.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
@@ -490,6 +503,18 @@ summer.MR <- ggplot() + geom_point(data = MR.summer, aes(y = air_temp, x = date_
 fall.MR <- ggplot() + geom_point(data = MR.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
   geom_smooth(data = MR.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
   labs(x = "Year", y = "Air Temperature")
+
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Winter Months in Molasses Reef")
+spring.MR <- ggplot() + geom_point(data = MR.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
+  geom_smooth(data = MR.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Spring Months in Molasses Reef")
+summer.MR <- ggplot() + geom_point(data = MR.summer, aes(y = air_temp, x = date_time), color = "goldenrod1") + 
+  geom_smooth(data = MR.summer, aes(y = air_temp, x = date_time), color = "goldenrod4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Summer Months in Molasses Reef")
+fall.MR <- ggplot() + geom_point(data = MR.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
+  geom_smooth(data = MR.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Fall Months in Molasses Reef")
+
 grid.arrange(winter.MR, spring.MR, summer.MR, fall.MR, ncol=2)
 
 MR.winter$date_time <- as.numeric(MR.winter$date_time)
@@ -504,6 +529,7 @@ cor(MR.fall$air_temp, MR.fall$date_time, use = "complete.obs")
 
 winter.GB <- ggplot() + geom_point(data = GB.winter, aes(y = air_temp, x = date_time), color = "darkslategray4") +
   geom_smooth(data = GB.winter, aes(y = air_temp, x = date_time), color = "darkslategray", method = "lm", se = FALSE) +
+
   labs(x = "Year", y = "Air Temperature")
 
 spring.GB <- ggplot() + geom_point(data = GB.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
@@ -515,6 +541,18 @@ summer.GB <- ggplot() + geom_point(data = GB.summer, aes(y = air_temp, x = date_
 fall.GB <- ggplot() + geom_point(data = GB.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
   geom_smooth(data = GB.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
   labs(x = "Year", y = "Air Temperature")
+
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Fall Months in Georges Bank")
+spring.GB <- ggplot() + geom_point(data = GB.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
+  geom_smooth(data = GB.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Spring Months in Georges Bank")
+summer.GB <- ggplot() + geom_point(data = GB.summer, aes(y = air_temp, x = date_time), color = "goldenrod1") + 
+  geom_smooth(data = GB.summer, aes(y = air_temp, x = date_time), color = "goldenrod4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Summer Months in Georges Bank")
+fall.GB <- ggplot() + geom_point(data = GB.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
+  geom_smooth(data = GB.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Fall Months in Georges Bank")
+
 grid.arrange(winter.GB, spring.GB, summer.GB, fall.GB, ncol=2)
 
 GB.winter$date_time <- as.numeric(GB.winter$date_time)
@@ -530,6 +568,7 @@ cor(GB.fall$air_temp, GB.fall$date_time, use = "complete.obs")
 
 winter.MG <- ggplot() + geom_point(data = MG.winter, aes(y = air_temp, x = date_time), color = "darkslategray4") +
   geom_smooth(data = MG.winter, aes(y = air_temp, x = date_time), color = "darkslategray", method = "lm", se = FALSE) +
+
   labs(x = "Year", y = "Air Temperature")
 spring.MG <- ggplot() + geom_point(data = MG.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
   geom_smooth(data = MG.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
@@ -540,6 +579,18 @@ summer.MG <- ggplot() + geom_point(data = MG.summer, aes(y = air_temp, x = date_
 fall.MG <- ggplot() + geom_point(data = MG.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
   geom_smooth(data = MG.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
   labs(x = "Year", y = "Air Temperature")
+
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Winter Months in Mid Gulf")
+spring.MG <- ggplot() + geom_point(data = MG.spring, aes(y = air_temp, x = date_time), color = "darkorchid1") +
+  geom_smooth(data = MG.spring, aes(y = air_temp, x = date_time), color = "darkorchid4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Spring Months in Mid Gulf")
+summer.MG <- ggplot() + geom_point(data = MG.summer, aes(y = air_temp, x = date_time), color = "goldenrod1") + 
+  geom_smooth(data = MG.summer, aes(y = air_temp, x = date_time), color = "goldenrod4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Summer Months in Mid Gulf")
+fall.MG <- ggplot() + geom_point(data = MG.fall, aes(y = air_temp, x = date_time), color = "darkorange2") +
+  geom_smooth(data = MG.fall, aes(y = air_temp, x = date_time), color = "darkorange4", method = "lm", se = FALSE) +
+  labs(x = "Year", y = "Air Temperature", title = "Year vs. Air Temperature, Fall Months in Mid Gulf")
+
 grid.arrange(winter.MG, spring.MG, summer.MG, fall.MG, ncol=2)
 
 MG.winter$date_time <- as.numeric(MG.winter$date_time)
@@ -551,6 +602,9 @@ cor(MG.winter$air_temp, MG.winter$date_time, use = "complete.obs")
 cor(MG.spring$air_temp, MG.spring$date_time, use = "complete.obs")
 cor(MG.summer$air_temp, MG.summer$date_time, use = "complete.obs")
 cor(MG.fall$air_temp, MG.fall$date_time, use = "complete.obs")
+
+
+# Data Visuals for Air and Sea Correlation
 
 # CM Air and Sea
 
